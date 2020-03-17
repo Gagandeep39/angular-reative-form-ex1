@@ -1,32 +1,90 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form (ngSubmit)="submitForm()" [formGroup]="signupForm">
+      <form (ngSubmit)="submitForm()" [formGroup]="signUpForm">
+        <!-- Username -->
         <div class="form-group">
           <label for="username">Username</label>
           <input
+            [ngClass]="{'is-invalid': submitted && signUpForm.get('username').invalid}"
             class="form-control"
             formControlName="username"
             id="username"
+            placeholder="Username"
             type="text">
+          <div *ngIf="signUpForm.get('username').invalid && submitted" class="invalid-feedback">
+            <div *ngIf="signUpForm.get('username').errors.required">Field cannot be Empty</div>
+          </div>
         </div>
+        <!-- Email-->
         <div class="form-group">
-          <label for="email">email</label>
+          <label for="email">Email</label>
           <input
+            [ngClass]="{'is-invalid': submitted && signUpForm.get('email').invalid}"
             class="form-control"
             formControlName="email"
             id="email"
+            placeholder="Email"
             type="text">
+          <div *ngIf="signUpForm.get('email').invalid && submitted" class="invalid-feedback">
+            <div *ngIf="signUpForm.get('email').errors.required">Field cannot be Empty</div>
+            <div *ngIf="signUpForm.get('email').errors.email">Enter Valid Email</div>
+          </div>
         </div>
-        <div *ngFor="let gender of genders" class="radio">
-          <label>
+        <!-- Secret Question -->
+        <div class="form-group">
+          <label for="secretquestion">Secret Question</label>
+          <select
+            [ngClass]="{'is-invalid' : submitted && signUpForm.get('secret').invalid}"
+            class="custom-select browser-default"
+            formControlName="secret"
+            id="secretquestion">
+            <option value="">Open this select menu</option>
+            <option *ngFor="let question of questions" [value]="question">{{question}}</option>
+          </select>
+          <div *ngIf="submitted && signUpForm.get('secret').invalid" class="invalid-feedback">Select a secret question
+          </div>
+        </div>
+
+        <!-- Gender-->
+        <div>
+          <label>Gender</label>
+          <div *ngFor="let gender of genders" class="custom-control custom-radio">
             <input
-              formControlName="gender"
+              [ngClass]="{'is-invalid':submitted && signUpForm.get('gender').invalid}"
               [value]="gender"
-              type="radio">{{ gender }}
-          </label>
+              class="custom-control-input"
+              formControlName="gender"
+              id="{{gender}}"
+              type="radio">
+            <label class="custom-control-label" for="{{gender}}">{{gender}}</label>
+          </div>
+          <div *ngIf="submitted && signUpForm.get('gender').invalid" class="text-danger">
+            <small>Select an Option</small>
+          </div>
+        </div>
+        <!-- Cities - not working for now -->
+        <div>
+          <label>Cities</label>
+          <div *ngFor="let item of citiesList" class="custom-control custom-checkbox">
+            <input
+              [ngClass]="{'is-invalid': submitted && signUpForm.get('cities').invalid}"
+              class="custom-control-input"
+              formControlName="cities"
+              id="{{item.name}}"
+              name="city"
+              type="checkbox">
+            <label class="custom-control-label" for="{{item.name}}">{{item.name}}</label>
+          </div>
+          <div *ngIf="submitted && signUpForm.get('cities').invalid" class="text-danger">
+            <small>Select atleast one Option</small>
+          </div>
         </div>
         <button class="btn btn-primary" type="submit">Submit</button>
+
+        <pre>
+          {{signUpForm.value | json}}
+        </pre>
       </form>
     </div>
   </div>

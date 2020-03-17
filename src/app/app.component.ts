@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,17 +8,38 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   genders = ['male', 'female'];
-  signupForm: FormGroup;
+  questions = ['Your Favourite Teacher', 'Name of your first Pet'];
+  signUpForm: FormGroup;
+
+  submitted = false;
+  citiesList = [
+    {name: 'Mumbai', checked: false},
+    {name: 'New York', checked: false},
+    {name: 'Vancouver', checked: false}
+  ];
 
   ngOnInit(): void {
-    this.signupForm = new FormGroup({
-      'username': new FormControl(null),
-      'email': new FormControl(null),
-      'gender': new FormControl('male')
+    this.signUpForm = new FormGroup({
+      'username': new FormControl(null, Validators.required),
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'secret': new FormControl(null, Validators.required),
+      'gender': new FormControl(null, Validators.required),
+      'cities': new FormControl(null, Validators.required)
     });
   }
 
   submitForm() {
-    console.log(this.signupForm);
+    this.submitted = true;
+    if (this.signUpForm.valid) {
+      alert('Submitted');
+    }
+    console.log(this.signUpForm);
   }
+
+  // console.log(this.signupForm) can be used to find varios info about form values
+  // We use Validator.required(i.e create reference to validator method) and not Validators.required()
+  // This is because, angular will call the .required() method everytime it detect change instead of doing it once
+  // we can write single validator or pass an array of validators
+  // {{signupForm.controls.username.errors | json}} can be ised in html to see validators and their status
+  // console.log(this.signupForm.controls) in typescript does the same thing
 }
