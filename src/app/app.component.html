@@ -63,14 +63,16 @@
             <small>Select an Option</small>
           </div>
         </div>
-        <!-- Cities - not working for now -->
+
+        <!-- Cities - not working for now [Fixed] -->
         <div>
           <label>Cities</label>
           <div *ngFor="let item of citiesList" class="custom-control custom-checkbox">
             <input
+              (change)="onCheckboxChange($event.target, item)"
               [ngClass]="{'is-invalid': submitted && signUpForm.get('cities').invalid}"
               class="custom-control-input"
-              formControlName="cities"
+              formArrayName="cities"
               id="{{item.name}}"
               name="city"
               type="checkbox">
@@ -80,8 +82,8 @@
             <small>Select atleast one Option</small>
           </div>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
 
+        <button class="btn btn-primary" type="submit">Submit</button>
         <pre>
           {{signUpForm.value | json}}
         </pre>

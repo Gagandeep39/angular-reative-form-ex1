@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'secret': new FormControl(null, Validators.required),
       'gender': new FormControl(null, Validators.required),
-      'cities': new FormControl(null, Validators.required)
+      'cities': new FormArray([], Validators.required),
     });
   }
 
@@ -42,4 +42,14 @@ export class AppComponent implements OnInit {
   // we can write single validator or pass an array of validators
   // {{signupForm.controls.username.errors | json}} can be ised in html to see validators and their status
   // console.log(this.signupForm.controls) in typescript does the same thing
+  onCheckboxChange(e: EventTarget, item: { name: string; checked: boolean }) {
+    const checkArray: FormArray = this.signUpForm.get('cities') as FormArray;
+    console.log((<HTMLInputElement>e).checked);
+    if ((<HTMLInputElement>e).checked) {
+      checkArray.push(new FormControl(item.name));
+    } else {
+      const index = checkArray.controls.findIndex((element: FormControl) => element.value.toString() === item.name);
+      checkArray.removeAt(index);
+    }
+  }
 }
