@@ -49,6 +49,9 @@ export class AppComponent implements OnInit {
     this.submitted = true;
     if (this.signUpForm.valid) {
       alert('Submitted');
+      this.submitted = false;
+      this.signUpForm.reset();
+      this.signUpForm.get('cities').reset({});
     }
     console.log(this.signUpForm);
   }
@@ -100,6 +103,29 @@ export class AppComponent implements OnInit {
       }, 1000);
     });
     return promise;
+  }
+
+  dummyValues() {
+    this.signUpForm.setValue({
+      'userData': {
+        'username': 'Gagandeep',
+        'email': 'singh.gagandeep3911@gmail.com'
+      },
+      'secret': 'Name of your first Pet',
+      'gender': 'male',
+      'cities': [],
+      'hobbies': []
+    });
+  }
+
+  dummyUsername() {
+    this.signUpForm.patchValue({
+      'userData': {
+        'username': 'Gagandeep',
+        'email': 'singh.gagandeep3911@gmail.com'
+      }
+    });
+
   }
 }
 

@@ -103,7 +103,12 @@
           </div>
         </div>
 
+        <button (click)="dummyUsername()" class="btn btn-primary" type="button">Add Dummy Username</button>
+        <br>
+        <button (click)="dummyValues()" class="btn btn-success" type="button">Add Dummy Values</button>
+        <br>
         <button class="btn btn-primary" type="submit">Submit</button>
+        <br>
         <pre>
           {{signUpForm.value | json}}
           <!-- Below Code can be used to get status of Async Task -->
