@@ -2,33 +2,36 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <form (ngSubmit)="submitForm()" [formGroup]="signUpForm">
-        <!-- Username -->
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            [ngClass]="{'is-invalid': submitted && signUpForm.get('username').invalid}"
-            class="form-control"
-            formControlName="username"
-            id="username"
-            placeholder="Username"
-            type="text">
-          <div *ngIf="signUpForm.get('username').invalid && submitted" class="invalid-feedback">
-            <div *ngIf="signUpForm.get('username').errors.required">Field cannot be Empty</div>
+        <!--  Created a formGroup-->
+        <div formGroupName="userData">
+          <!-- Username -->
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              [ngClass]="{'is-invalid': submitted && signUpForm.get('userData.username').invalid}"
+              class="form-control"
+              formControlName="username"
+              id="username"
+              placeholder="Username"
+              type="text">
+            <div *ngIf="signUpForm.get('userData.username').invalid && submitted" class="invalid-feedback">
+              <div *ngIf="signUpForm.get('userData.username').errors.required">Field cannot be Empty</div>
+            </div>
           </div>
-        </div>
-        <!-- Email-->
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            [ngClass]="{'is-invalid': submitted && signUpForm.get('email').invalid}"
-            class="form-control"
-            formControlName="email"
-            id="email"
-            placeholder="Email"
-            type="text">
-          <div *ngIf="signUpForm.get('email').invalid && submitted" class="invalid-feedback">
-            <div *ngIf="signUpForm.get('email').errors.required">Field cannot be Empty</div>
-            <div *ngIf="signUpForm.get('email').errors.email">Enter Valid Email</div>
+          <!-- Email-->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              [ngClass]="{'is-invalid': submitted && signUpForm.get('userData.email').invalid}"
+              class="form-control"
+              formControlName="email"
+              id="email"
+              placeholder="Email"
+              type="text">
+            <div *ngIf="signUpForm.get('userData.email').invalid && submitted" class="invalid-feedback">
+              <div *ngIf="signUpForm.get('userData.email').errors.required">Field cannot be Empty</div>
+              <div *ngIf="signUpForm.get('userData.email').errors.email">Enter Valid Email</div>
+            </div>
           </div>
         </div>
         <!-- Secret Question -->
