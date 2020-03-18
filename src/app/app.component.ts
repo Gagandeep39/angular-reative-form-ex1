@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ export class AppComponent implements OnInit {
   questions = ['Your Favourite Teacher', 'Name of your first Pet'];
   signUpForm: FormGroup;
   forbiddenNames = ['Gagan', 'Gaga'];
+  forbiddenEmails = ['test@email.com', 'test@mail.com'];
 
   submitted = false;
   citiesList = [
@@ -20,11 +22,12 @@ export class AppComponent implements OnInit {
   ];
 
   // .bind(this) wont be required when using custom validator class
+  // Async Validators are stored in separate array
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required, this.forbiddenNameValidator.bind(this)]),
-        'email': new FormControl(null, [Validators.required, Validators.email]),
+        'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmailAsync.bind(this)),
       }),
       'secret': new FormControl(null, Validators.required),
       'gender': new FormControl(null, Validators.required),
@@ -72,5 +75,21 @@ export class AppComponent implements OnInit {
     }
     return null;
     // return {'nameIsForbidded': false};  // Wwill still be considered as true, error
+  }
+
+  // Perform Async Validation
+  // We return a promise using resolve()
+  // Dont use (reject) as we are not throwing an exception
+  forbiddenEmailAsync(control: FormControl): Promise<any> | Observable<any> | any {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (this.forbiddenEmails.indexOf(control.value) !== -1) {
+          resolve({'emailIsForbidden': true});
+        } else {
+          resolve(null);
+        }
+      }, 1000);
+    });
+    return promise;
   }
 }
