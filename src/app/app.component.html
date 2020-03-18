@@ -16,6 +16,7 @@
               type="text">
             <div *ngIf="signUpForm.get('userData.username').invalid && submitted" class="invalid-feedback">
               <div *ngIf="signUpForm.get('userData.username').errors.required">Field cannot be Empty</div>
+              <div *ngIf="signUpForm.get('userData.username').errors['nameIsForbidded']">Name is Forbidden</div>
             </div>
           </div>
           <!-- Email-->
@@ -29,7 +30,7 @@
               placeholder="Email"
               type="text">
             <div *ngIf="signUpForm.get('userData.email').invalid && submitted" class="invalid-feedback">
-              <div *ngIf="signUpForm.get('userData.email').errors.required">Field cannot be Empty</div>
+              <div *ngIf="signUpForm.get('userData.email').errors['required']">Field cannot be Empty</div>
               <div *ngIf="signUpForm.get('userData.email').errors.email">Enter Valid Email</div>
             </div>
           </div>
@@ -109,3 +110,6 @@
     </div>
   </div>
 </div>
+
+<!--Standard way of validation in reactive form-->
+<!--*ngIf="signUpForm.get('userData.username').errors['nameIsForbidded']-->

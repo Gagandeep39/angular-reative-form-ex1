@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   genders = ['male', 'female'];
   questions = ['Your Favourite Teacher', 'Name of your first Pet'];
   signUpForm: FormGroup;
+  forbiddenNames = ['Gagan', 'Gaga'];
 
   submitted = false;
   citiesList = [
@@ -18,10 +19,11 @@ export class AppComponent implements OnInit {
     {name: 'Vancouver', checked: false}
   ];
 
+  // .bind(this) wont be required when using custom validator class
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
       'userData': new FormGroup({
-        'username': new FormControl(null, Validators.required),
+        'username': new FormControl(null, [Validators.required, this.forbiddenNameValidator.bind(this)]),
         'email': new FormControl(null, [Validators.required, Validators.email]),
       }),
       'secret': new FormControl(null, Validators.required),
@@ -59,5 +61,16 @@ export class AppComponent implements OnInit {
   onAddHobby() {
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.signUpForm.get('hobbies')).push(control);
+  }
+
+
+  // Checks if value exists in array
+  // If it does then value is forbidden and hence invalid
+  forbiddenNameValidator(control: FormControl): { [s: string]: boolean } {
+    if (this.forbiddenNames.indexOf(control.value) !== -1) {
+      return {'nameIsForbidded': true};
+    }
+    return null;
+    // return {'nameIsForbidded': false};  // Wwill still be considered as true, error
   }
 }
