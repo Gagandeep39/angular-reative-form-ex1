@@ -110,6 +110,12 @@
           <!-- {{signUpForm.status | json}}-->
           <!-- {{signUpForm.controls.userData.status | json}}-->
           <!-- {{signUpForm.controls.userData.controls.email.status | json}}-->
+
+          <!-- Record exact same data as signUpForm.value-->
+          {{valueSubscription | json}}
+
+          <!-- Records the status, same as signUpForm.status -->
+          {{statusSubscription | json}}
         </pre>
       </form>
     </div>

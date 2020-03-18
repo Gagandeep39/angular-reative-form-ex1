@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   signUpForm: FormGroup;
   forbiddenNames = ['Gagan', 'Gaga'];
   forbiddenEmails = ['test@email.com', 'test@mail.com'];
+  valueSubscription: Subscription;
+  statusSubscription: Subscription;
 
   submitted = false;
   citiesList = [
@@ -33,6 +35,13 @@ export class AppComponent implements OnInit {
       'gender': new FormControl(null, Validators.required),
       'cities': new FormArray([], Validators.required),
       'hobbies': new FormArray([])
+    });
+
+    this.signUpForm.valueChanges.subscribe(value => {
+      this.valueSubscription = value;
+    });
+    this.signUpForm.statusChanges.subscribe(value => {
+      this.statusSubscription = value;
     });
   }
 
@@ -93,3 +102,8 @@ export class AppComponent implements OnInit {
     return promise;
   }
 }
+
+// Reactive Form provides 2 observables
+// 1. Status changes
+// 2. Value Changes
+// We can subscribe to them via ng On INit
