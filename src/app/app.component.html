@@ -48,7 +48,6 @@
           <div *ngIf="submitted && signUpForm.get('secret').invalid" class="invalid-feedback">Select a secret question
           </div>
         </div>
-
         <!-- Gender-->
         <div>
           <label>Gender</label>
@@ -66,7 +65,6 @@
             <small>Select an Option</small>
           </div>
         </div>
-
         <!-- Cities - not working for now [Fixed] -->
         <div>
           <label>Cities</label>
@@ -83,6 +81,23 @@
           </div>
           <div *ngIf="submitted && signUpForm.get('cities').invalid" class="text-danger">
             <small>Select atleast one Option</small>
+          </div>
+        </div>
+        <!-- Hobbies - Partially working -->
+        <div formArrayName="hobbies">
+          <label>Hobbies</label><br>
+          <button (click)="onAddHobby()" class="btn btn-secondary" type="button">Add Hobby</button>
+          <div *ngFor="let hobby of signUpForm.value.hobbies; let i=index" class="form-group">
+            <label [for]="i">Hobby {{i + 1}} {{hobby | json}}</label>
+            <input
+              [formControlName]="i"
+              [id]="i" [ngClass]="{'is-invalid': submitted && signUpForm.controls.hobbies.value[i].invalid}"
+              class="form-control"
+              name="hobby"
+              type="text">
+          </div>
+          <div *ngIf="submitted && signUpForm.controls.hobbies.invalid" class="text-danger">
+            Enter All hobbies
           </div>
         </div>
 

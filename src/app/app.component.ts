@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
       'secret': new FormControl(null, Validators.required),
       'gender': new FormControl(null, Validators.required),
       'cities': new FormArray([], Validators.required),
+      'hobbies': new FormArray([])
     });
   }
 
@@ -53,5 +54,10 @@ export class AppComponent implements OnInit {
       const index = checkArray.controls.findIndex((element: FormControl) => element.value.toString() === item.name);
       checkArray.removeAt(index);
     }
+  }
+
+  onAddHobby() {
+    const control = new FormControl(null, Validators.required);
+    (<FormArray>this.signUpForm.get('hobbies')).push(control);
   }
 }
